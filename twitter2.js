@@ -13,15 +13,14 @@ var T = new Twit ({
     access_token_secret: TWITTER_SECRET_TOKEN
 });
 
-var number = 2;
+var number = 5;
 var string = "";
 
 function getID (tweet)
 {
     T.get('statuses/show/:id', {id: tweet.id_str, tweet_mode: 'extended'}, function(err, data, response){
         var str = data.full_text;
-        string += str;
-        string += " *()* "
+        string = string + str + '\n';
     });
 }
 
@@ -35,7 +34,7 @@ T.get('statuses/user_timeline', {screen_name: test_id, count: number}, function(
 function getString() {
     setTimeout(() => {
         const fs = require('fs'); 
-        fs.writeFile('Output.txt', string, (err) => {  
+        fs.writeFile('input.txt', string, (err) => {  
             if(err) 
             {
                 throw err;
