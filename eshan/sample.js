@@ -2,29 +2,30 @@ const axios = require("axios");
 const base = "https://www.googleapis.com/youtube/v3/";
 const KEY = "AIzaSyA6kU6LhCRMQbWL8DwEJSSb_lDQ4kYUY7E"
 
-//https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=marquesbrownlee&key={YOUR_API_KEY}
 function get_uploads(name){
     axios({
         method:'get',
         url: base + "channels?part=contentDetails&forUsername=" + name + "&key=" + KEY
     }).then(response=>{
-        console.log(response.data["items"])
-        thing =  base + "playlists?part=snippet&channelId=" + response.data["items"][0].id + "&key=" + KEY;
-        console.log(response.data.etag);
-        console.log(thing);
-       function example (th){ axios({
-            // console.log(response.data.etag);
+        const uploads_id = response.data.items[0].contentDetails.relatedPlaylists.uploads
+        uploads_url =  base + "playlistItems?part=snippet&maxResults=50&playlistId=" + uploads_id + "&key=" + KEY;
+        // console.log(uploads_url)
+
+        function example (url){ axios({
             method:'get',
-            url: th
+            url: url
         }).then(res=>{
-            console.log(res)
+            
+            for (var i = 0; i < 50; i++) {
+                console.log(res.data.items[i].snippet.thumbnails.high.url);
+            }
         })
         .catch(error=>{
-            console.log("error");
-            console.log(error.response.status);
+            console.log(error);
+            // console.log(error.res.status);
         })
     }
-    example(thing);
+    example(uploads_url);
     })
     .catch(error=>{
         console.log(error);
