@@ -1,0 +1,3 @@
+[submodule "YouTube/scraper"]
+	path = YouTube/scraper
+	url = https://github.com/valerijv/youtube-scraper.git
